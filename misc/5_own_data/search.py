@@ -48,7 +48,7 @@ def youtube_search(options):
 
 
 if __name__ == "__main__":
-  argparser.add_argument("--q", help="Search term", default="Google")
+  argparser.add_argument("--q", help="Search term", default="True Survivor")
   argparser.add_argument("--max-results", help="Max results", default=25)
   args = argparser.parse_args()
 
