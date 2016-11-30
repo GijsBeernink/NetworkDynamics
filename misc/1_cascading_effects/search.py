@@ -9,7 +9,7 @@ from oauth2client.tools import argparser
 # tab of
 #   https://cloud.google.com/console
 # Please ensure that you have enabled the YouTube Data API for your project.
-DEVELOPER_KEY = "REPLACE_ME"
+DEVELOPER_KEY = open('../API_KEY.txt', 'r').read()
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
@@ -54,5 +54,5 @@ if __name__ == "__main__":
 
   try:
     youtube_search(args)
-  except HttpError as e:
+  except HttpError, e:
     print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
