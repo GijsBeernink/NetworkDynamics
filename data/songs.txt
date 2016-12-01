@@ -1,0 +1,100 @@
+0 :  Adele - Hello
+1 :  Justin Bieber - Sorry (Dance Video)
+2 :  Drake - Hotline Bling
+3 :  Justin Bieber - What Do You Mean?
+4 :  Shawn Mendes - Stitches (Official Video)
+5 :  The Weeknd - Can't Feel My Face
+6 :  Ellie Goulding - On My Mind
+7 :  R. City - Locked Away ft. Adam Levine
+8 :  Ariana Grande - Focus
+9 :  Calvin Harris & Disciples - How Deep Is Your Love
+10 :  Major Lazer & DJ Snake - Lean On (feat. MØ) (Official Music Video)
+11 :  Justin Bieber - I'll Show You
+12 :  The Weeknd - The Hills
+13 :  Robin Schulz - Sugar (feat. Francesco Yates) (OFFICIAL MUSICVIDEO)
+14 :  Selena Gomez - Same Old Love
+15 :  One Direction - Perfect (Official Video)
+16 :  OMI - Cheerleader (Felix Jaehn Remix) [Official Video]
+17 :  Ed Sheeran - Photograph (Official Music Video)
+18 :  MACKLEMORE & RYAN LEWIS - DOWNTOWN (OFFICIAL MUSIC VIDEO)
+19 :  Rudimental - Lay It All On Me feat. Ed Sheeran [Official Video]
+20 :  One Direction - Drag Me Down
+21 :  Charlie Puth - Marvin Gaye ft. Meghan Trainor [Official Video]
+22 :  Drake - Jumpman (Official Video) ft. Soulja Boy
+23 :  Zara Larsson, MNEK - Never Forget You
+24 :  Sigala - Easy Love (Original Mix)
+25 :  Selena Gomez - Good For You
+26 :  Skrillex and Diplo - "Where Are Ü Now" with Justin Bieber (Official Video)
+27 :  Alessia Cara - Here
+28 :  Felix Jaehn - Ain’t Nobody (Loves Me Better) ft. Jasmine Thompson
+29 :  Lukas Graham - 7 Years
+30 :  Fetty Wap  - Trap Queen (Official Video) Prod. By Tony Fadd
+31 :  History - One Direction (Audio)
+32 :  Fetty Wap "679" feat. Remy Boyz [Official Video]
+33 :  Omi - Hula Hoop (Official Video)
+34 :  Demi Lovato - Confident (Official Video)
+35 :  Nicky Jam - El Perdón | Video Lyric | (Prod. Saga WhiteBlack)
+36 :  Ed Sheeran - Thinking Out Loud [Official Video]
+37 :  Hailee Steinfeld - Love Myself
+38 :  Avicii - Waiting For Love
+39 :  Wiz Khalifa - See You Again ft. Charlie Puth [Official Video] Furious 7 Soundtrack
+40 :  Jason Derulo - "Want To Want Me" (Official Video)
+41 :  Meghan Trainor - Like I'm Gonna Lose You ft. John Legend
+42 :  Lost Frequencies feat. Janieck Devy - Reality (Radio Edit)
+43 :  X Ambassadors - Renegades (Official Video)
+44 :  Zara Larsson - Lush Life
+45 :  Fetty Wap  - Again [Audio Only]
+46 :  Kygo - Stole The Show (Feat. Parson James)
+47 :  Kygo - Firestone ft. Conrad Sewell
+48 :  Mark Ronson - Uptown Funk ft. Bruno Mars
+49 :  Coldplay - Adventure Of A Lifetime (Official audio)
+50 :  J. Balvin - Ginza
+51 :  WALK THE MOON - Shut up and Dance
+52 :  Lost Frequencies - Are You With Me (Radio Edit)
+53 :  Sam Smith - Writing's On The Wall (from Spectre)
+54 :  Maroon 5 - Sugar
+55 :  The Chainsmokers - Roses (Audio) ft. ROZES
+56 :  Ellie Goulding - Love Me Like You Do (Official Video)
+57 :  Silentó - Watch Me (Whip/Nae Nae) (Official)
+58 :  Post Malone - White Iverson | Official Music Video
+59 :  Kygo - Here for You ft. Ella Henderson
+60 :  Avicii - For A Better Day
+61 :  Elle King - Ex's & Oh's (Official Video)
+62 :  Fifth Harmony - Worth It ft. Kid Ink
+63 :  Flo Rida ft. Robin Thicke & Verdine White - I Don’t Like It, I Love It [Official Video]
+64 :  Travis Scott - Antidote
+65 :  Adele - Someone Like You
+66 :  Hozier - Take Me To Church
+67 :  The Weeknd - Earned It (Fifty Shades Of Grey) (Lyric Video)
+68 :  Demi Lovato - Cool for the Summer (Official Video)
+69 :  Drake - Back to Back Freestyle [LYRICS]
+70 :  Sam Smith - Stay With Me
+71 :  Sia - Alive
+72 :  Pia Mia - Do It Again ft. Chris Brown, Tyga
+73 :  Naughty Boy - Runnin' (Lose It All) ft. Beyoncé, Arrow Benjamin
+74 :  David Guetta - Hey Mama (Official Video) ft Nicki Minaj, Bebe Rexha & Afrojack
+75 :  Drake & Future - Big Rings (Instrumental)
+76 :  Mike Posner - I Took A Pill In Ibiza (SeeB Remix / Audio)
+77 :  Diplo & Sleepy Tom - Be Right There
+78 :  Major Lazer - Powerful (feat. Ellie Goulding & Tarrus Riley) (Official Music Video)
+79 :  J Cole - No Role Models (2014 Forest Hills Drive)
+80 :  Little Mix - Black Magic
+81 :  Dawin - Dessert – (Official Lyrics Video)
+82 :  Fetty Wap "My Way" feat. Monty [Official Video]
+83 :  Rachel Platten - Fight Song (Official Video)
+84 :  Galantis - Runaway (U & I) (Official Video)
+85 :  Adam Lambert - "Ghost Town" [Official Music Video]
+86 :  Adele - Rolling in the Deep
+87 :  Little Mix - Love Me Like You (Official Video)
+88 :  The Weeknd - Often (NSFW)
+89 :  James Bay - Let It Go
+90 :  Nico & Vinz - That's How You Know feat. Kid Ink & Bebe Rexha (Official Music Video)
+91 :  Sia - Chandelier (Official Video)
+92 :  Sam Smith - I'm Not The Only One
+93 :  Deorro x Chris Brown - Five More Hours (Official Video)
+94 :  John Legend - All of Me
+95 :  Flo Rida - My House [Official Video]
+96 :  Drake - Right Hand Girl dance vine
+97 :  Rihanna - Bitch Better Have My Money (Explicit)
+98 :  Nelly - The Fix (Official Video) ft. Jeremih
+99 :  Rae Sremmurd - Come Get Her (Explicit)
