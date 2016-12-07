@@ -124,17 +124,15 @@ def total_like_to_new_like_ratio_plot():
 
             if dislikes_more > 0 and likes_more > 0:
                 like_ratio_in_new_votes.append(float(likes_more) / (float(likes_more) + float(dislikes_more)))
-                like_ratio.append(float(likes) / (float(likes) + float(dislikes)))
+                like_ratio.append(float(data[day - 1][song].likes) / (float(data[day - 1][song].likes) + float(data[day - 1][song].dislikes)))
 
     plt.figure("Scatter-plot")
     plt.scatter(like_ratio, like_ratio_in_new_votes)
     plt.ylabel("Like ratio in new votes")
     plt.xlabel("Like ratio")
-    plt.show()
+    plt.show(block = False)
 
-
-
-def total_like_to_new_like_ratio_plot(song):
+def total_like_to_new_like_ratio_plot_per_song(song):
     like_ratio = []
     like_ratio_in_new_votes = []
 
@@ -151,7 +149,7 @@ def total_like_to_new_like_ratio_plot(song):
 
             if dislikes_more > 0 and likes_more > 0:
                 like_ratio_in_new_votes.append(float(likes_more) / (float(likes_more) + float(dislikes_more)))
-                like_ratio.append(float(likes) / (float(likes) + float(dislikes)))
+                like_ratio.append(float(data[day - 1][song].likes) / (float(data[day - 1][song].likes) + float(data[day - 1][song].dislikes)))
 
     print like_ratio
     print like_ratio_in_new_votes
@@ -161,6 +159,7 @@ def total_like_to_new_like_ratio_plot(song):
     plt.ylabel("Like ratio in new votes")
     plt.xlabel("Like ratio")
     plt.show(block=False)
+
 
 def plot_increasing_increase_ratio():
     for i in range(len(data_ref)):
@@ -174,11 +173,12 @@ def plot_increasing_increase_ratio():
             plt.xlabel("days")
             plt.show(block=False)
 
+
+total_like_to_new_like_ratio_plot()
 plot_increasing_increase_ratio()
 
-
 # Songs with increasing increase in likes vs total votes ratio:
-total_like_to_new_like_ratio_plot(8) # Ariana Grande - Focus
-total_like_to_new_like_ratio_plot(92) # Rihanna - Bitch Better Have My Money (Explicit)
+total_like_to_new_like_ratio_plot_per_song(8) # Ariana Grande - Focus
+total_like_to_new_like_ratio_plot_per_song(92) # Rihanna - Bitch Better Have My Money (Explicit)
 
 plt.show()
