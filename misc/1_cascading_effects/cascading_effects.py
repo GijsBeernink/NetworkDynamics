@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import misc.utils.util as util
 import datetime
+import pprint
 
 def get_data():
     return util.read_youtube_data()
@@ -26,9 +27,10 @@ def reformat_data(data):
                 date.append(data[i - 1][j].date)
             else:
                 print ("Titles not equal!:\n\t", data[i - 1][j].title, "\n\t", data[i][j].title)
-        new_data.append(util.SongSnapshot(title, views, likes, dislikes, commment_count))
+        new_data.append(util.SongSnapshot(title, views, likes, dislikes, commment_count, date))
     return new_data
 
+# Check if every song is on same index in data-array
 def check_titles(data):
     try:
         for j in range(len(data[0])):
@@ -103,16 +105,23 @@ def calculate_ratio(a, b):
 data = get_data()
 data_ref = reformat_data(data)
 
-    # diff_likes = calculate_difference_with_previous(song.likes)
-    # diff_dislikes = calculate_difference_with_previous(song.dislikes)
+def new_ratio_to_total_ratio_plot():
+    for i in range(len(data_ref)):
+        print data_ref[i].title, ": ", sum(int(x) for x in data_ref[i].likes)
+    #  TODO implement
 
-for i in range(len(data_ref)):
-    ratio = calculate_ratio(data_ref[i].likes, data_ref[i].dislikes)
+    return 0
 
-    if all(x<y for x, y in zip(ratio, ratio[1:])):
-        x = np.arange(0, len(ratio), 1)
-        plt.figure("Song: " + str(data_ref[i].title))
-        plt.plot(x, ratio, 'r')
-        plt.ylabel("ratio")
-        plt.xlabel("days")
-        plt.show()
+new_ratio_to_total_ratio_plot()
+
+def plot_increasing_increase_ratio():
+    for i in range(len(data_ref)):
+        ratio = calculate_ratio(data_ref[i].likes, data_ref[i].dislikes)
+
+        if all(x<y for x, y in zip(ratio, ratio[1:])):
+            x = np.arange(0, len(ratio), 1)
+            plt.figure("Song: " + str(data_ref[i].title))
+            plt.plot(x, ratio, 'r')
+            plt.ylabel("ratio")
+            plt.xlabel("days")
+            plt.show()

@@ -4,15 +4,15 @@ import dateutil.parser
 
 
 class SongSnapshot:
-    def __init__(self, title, views, likes, dislikes, comment_count, filename = "19700101"):
+    def __init__(self, title, views, likes, dislikes, comment_count, date):
         self.title = title
         self.views = views
         self.likes = likes
         self.dislikes = dislikes
         self.comment_count = comment_count
-        self.date = filter_date(filename)
+        self.date = date
 
-def get_snapshots(data, filename):
+def get_snapshots(data, date):
     snapshots = []
     for i in range(len(data)):
         title = data[i]["snippet"]["title"]
@@ -20,7 +20,7 @@ def get_snapshots(data, filename):
         likes = data[i]["statistics"]["likeCount"]
         dislikes = data[i]["statistics"]["dislikeCount"]
         comment_count = data[i]["statistics"]["commentCount"]
-        snapshot = SongSnapshot(title, views, likes, dislikes, comment_count, filename)
+        snapshot = SongSnapshot(title, views, likes, dislikes, comment_count, date)
         snapshots.append(snapshot)
     return snapshots
 
@@ -29,7 +29,7 @@ def read_youtube_data():
     for filename in os.listdir("../../data/youtube_top100"):
         data_file = open('../../data/youtube_top100/' + filename)
         data = json.load(data_file)
-        snapshots = get_snapshots(data, filename)
+        snapshots = get_snapshots(data, filter_date(filename))
         days.append(snapshots)
     return days
 
@@ -38,7 +38,7 @@ def read_megahit_data():
     for filename in os.listdir("../../data/radio3fm_megahit"):
         data_file = open('../../data/radio3fm_megahit/' + filename)
         data = json.load(data_file)
-        snapshots = get_snapshots(data, filename)
+        snapshots = get_snapshots(data, filter_date(filename))
         days.append(snapshots)
     return days
 
