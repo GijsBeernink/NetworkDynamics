@@ -169,7 +169,7 @@ def plot_increasing_increase_ratio():
             x = np.arange(0, len(ratio), 1)
             plt.figure("Song: " + str(data_ref[i].title))
             plt.plot(x, ratio, 'r')
-            plt.ylabel("ratio")
+            plt.ylabel("Percentage likes of all votes")
             plt.xlabel("days")
             plt.show(block=False)
 
