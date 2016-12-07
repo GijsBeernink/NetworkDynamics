@@ -6,8 +6,8 @@ import dateutil.parser
 Paths
 '''
 
-youtube_data_path = "../../data/youtube_top100"
-radio3fm_data_path = "../../data/radio3fm_megahit"
+youtube_data_path = "../../data/youtube_top100/"
+radio3fm_data_path = "../../data/radio3fm_megahit/"
 
 '''
 Data point object
@@ -32,6 +32,8 @@ Queries
 def get_snapshots(data, date):
     snapshots = []
     for i in range(len(data)):
+        if i == 22 or i == 67 or i == 73:
+            continue
         title = data[i]["snippet"]["title"]
         views = data[i]["statistics"]["viewCount"]
         likes = data[i]["statistics"]["likeCount"]

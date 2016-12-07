@@ -30,6 +30,8 @@ def reformat_data(data):
         new_data.append(util.SongSnapshot(title, views, likes, dislikes, commment_count, date))
     return new_data
 
+
+
 # Check if every song is on same index in data-array
 def check_titles(data):
     try:
@@ -44,6 +46,7 @@ def check_titles(data):
         print i,", ", j
 
 
+# Plots day vs like and day vs dislike of a single song.
 def plot_song(nr, data):
     get_song = nr
     like_counts = []
@@ -51,9 +54,6 @@ def plot_song(nr, data):
     title = ""
     previous_day = -1
     for day in data:
-        print previous_day
-        print day[get_song].date
-        print ""
         if previous_day == -1:
             previous_day = day[get_song].date - datetime.timedelta(days=1)
             title = day[get_song].title
@@ -67,9 +67,6 @@ def plot_song(nr, data):
             dislike_counts.append(0)
 
         while day[get_song].date > previous_day + datetime.timedelta(days=1):
-            print "while: ", previous_day
-            print "while: ", day[get_song].date
-            print ""
             like_counts.append(0)
             dislike_counts.append(0)
             previous_day += datetime.timedelta(days=1)
@@ -112,15 +109,42 @@ def total_like_to_new_like_ratio_plot():
     like_ratio = []
     like_ratio_in_new_votes = []
 
-    for dag in range(1, len(data)):
+    for day in range(1, len(data)):
 
         for song in range(len(data[0])):
 
-            likes = int(data[dag][song].likes)
-            dislikes = int(data[dag][song].dislikes)
+            likes = int(data[day][song].likes)
+            dislikes = int(data[day][song].dislikes)
 
-            previous_likes = int(data[dag - 1][song].likes)
-            previous_dislikes = int(data[dag - 1][song].dislikes)
+            previous_likes = int(data[day - 1][song].likes)
+            previous_dislikes = int(data[day - 1][song].dislikes)
+
+            likes_more = likes - previous_likes
+            dislikes_more = dislikes - previous_dislikes
+
+            if dislikes_more > 0 and likes_more > 0:
+                like_ratio_in_new_votes.append(float(likes_more) / (float(likes_more) + float(dislikes_more)))
+                like_ratio.append(float(likes) / (float(likes) + float(dislikes)))
+
+    plt.figure("Scatter-plot")
+    plt.scatter(like_ratio, like_ratio_in_new_votes)
+    plt.ylabel("Like ratio in new votes")
+    plt.xlabel("Like ratio")
+    plt.show()
+
+
+
+def total_like_to_new_like_ratio_plot(song):
+    like_ratio = []
+    like_ratio_in_new_votes = []
+
+    for day in range(1, len(data)):
+
+            likes = int(data[day][song].likes)
+            dislikes = int(data[day][song].dislikes)
+
+            previous_likes = int(data[day - 1][song].likes)
+            previous_dislikes = int(data[day - 1][song].dislikes)
 
             likes_more = likes - previous_likes
             dislikes_more = dislikes - previous_dislikes
@@ -132,13 +156,11 @@ def total_like_to_new_like_ratio_plot():
     print like_ratio
     print like_ratio_in_new_votes
 
-    plt.figure("Scatter-plot")
+    plt.figure("Scatter-plot of " + str(data[0][song].title))
     plt.scatter(like_ratio, like_ratio_in_new_votes)
     plt.ylabel("Like ratio in new votes")
     plt.xlabel("Like ratio")
-    plt.show()
-
-total_like_to_new_like_ratio_plot()
+    plt.show(block=False)
 
 def plot_increasing_increase_ratio():
     for i in range(len(data_ref)):
@@ -150,4 +172,13 @@ def plot_increasing_increase_ratio():
             plt.plot(x, ratio, 'r')
             plt.ylabel("ratio")
             plt.xlabel("days")
-            plt.show()
+            plt.show(block=False)
+
+plot_increasing_increase_ratio()
+
+
+# Songs with increasing increase in likes vs total votes ratio:
+total_like_to_new_like_ratio_plot(8) # Ariana Grande - Focus
+total_like_to_new_like_ratio_plot(92) # Rihanna - Bitch Better Have My Money (Explicit)
+
+plt.show()
