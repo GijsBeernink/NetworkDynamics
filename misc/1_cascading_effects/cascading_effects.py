@@ -105,14 +105,40 @@ def calculate_ratio(a, b):
 data = get_data()
 data_ref = reformat_data(data)
 
-def new_ratio_to_total_ratio_plot():
-    for i in range(len(data_ref)):
-        print data_ref[i].title, ": ", sum(int(x) for x in data_ref[i].likes)
-    #  TODO implement
+#  data[dag][song]
+# print data[0][0].title, ": ", data[0][0].likes
 
-    return 0
+def total_like_to_new_like_ratio_plot():
+    like_ratio = []
+    like_ratio_in_new_votes = []
 
-new_ratio_to_total_ratio_plot()
+    for dag in range(1, len(data)):
+
+        for song in range(len(data[0])):
+
+            likes = int(data[dag][song].likes)
+            dislikes = int(data[dag][song].dislikes)
+
+            previous_likes = int(data[dag - 1][song].likes)
+            previous_dislikes = int(data[dag - 1][song].dislikes)
+
+            likes_more = likes - previous_likes
+            dislikes_more = dislikes - previous_dislikes
+
+            if dislikes_more > 0 and likes_more > 0:
+                like_ratio_in_new_votes.append(float(likes_more) / (float(likes_more) + float(dislikes_more)))
+                like_ratio.append(float(likes) / (float(likes) + float(dislikes)))
+
+    print like_ratio
+    print like_ratio_in_new_votes
+
+    plt.figure("Scatter-plot")
+    plt.scatter(like_ratio, like_ratio_in_new_votes)
+    plt.ylabel("Like ratio in new votes")
+    plt.xlabel("Like ratio")
+    plt.show()
+
+total_like_to_new_like_ratio_plot()
 
 def plot_increasing_increase_ratio():
     for i in range(len(data_ref)):
