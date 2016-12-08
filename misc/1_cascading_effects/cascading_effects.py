@@ -163,9 +163,9 @@ def find_same_titles(source, dataset):
 
 
 # Plots day vs like and day vs dislike of all songs of megahit dataset
-def plot_songs_megahit(data, plot):
+def plot_songs_megahit_alarm(data, plot):
     likes = dict()                                # dict: {Song: [likes]}
-    dislikes = dict()                                # dict: {Song: [dislikes]}
+    dislikes = dict()                             # dict: {Song: [dislikes]}
     for song in data[len(data) - 1]:
         likes[song.title] = []
         dislikes[song.title] = []
@@ -180,14 +180,15 @@ def plot_songs_megahit(data, plot):
             temp_d.append(song.dislikes)
             dislikes[song.title] = temp_d
 
-    plt.figure(plot)
-
     for song in likes.keys():
+        plt.figure(plot + ": " + song)
         t = np.arange(0, len(likes[song]), 1)
         plt.plot(t, likes[song], 'b', t, dislikes[song], 'r')
         plt.ylabel("Votes")
         plt.xlabel("Days")
-        plt.show(block = False)
+        plt.show()
+    return likes, dislikes
+
 
 
 # Get data
@@ -195,9 +196,8 @@ youtube_data = util.read_youtube_data()
 megahit_data = util.read_megahit_data()
 alarmschijf_data = util.read_alarmschijf_data()
 
-plot_songs_megahit(alarmschijf_data, "alarmschijf")
-plot_songs_megahit(megahit_data, "megahit")
-
+plot_songs_megahit_alarm(alarmschijf_data, "alarmschijf")
+plot_songs_megahit_alarm(megahit_data, "megahit")
 
 
 
@@ -221,7 +221,6 @@ plot_songs_megahit(megahit_data, "megahit")
 # total_like_to_new_like_ratio_plot_per_song(92, youtube_data) # Rihanna - Bitch Better Have My Money (Explicit)
 
 
-plt.show()
 #
 # for day in alarmschijf_data:
 #     for song in day:
@@ -230,3 +229,10 @@ plt.show()
 # print find_same_titles(youtube_data, megahit_data)
 # print find_same_titles(youtube_data, alarmschijf_data)
 #
+
+
+
+
+
+
+plt.show()
