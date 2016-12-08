@@ -35,7 +35,7 @@ def plot_song(nr, data):
     plt.figure(title)
     plt.plot(t, view_counts, 'r')
     plt.ylabel("Views")
-    plt.xlabel("Days since 21-03-2015")
+    plt.xlabel(data[0][nr].title)
     plt.show()
 
 
