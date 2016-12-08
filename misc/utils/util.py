@@ -8,6 +8,7 @@ Paths
 
 youtube_data_path = "../../data/youtube_top100/"
 radio3fm_data_path = "../../data/radio3fm_megahit/"
+radio538data_path = "../../data/radio538_alarmschijf/"
 
 '''
 Data point object
@@ -59,6 +60,9 @@ def read_youtube_data():
 
 def read_megahit_data():
     return read_data(radio3fm_data_path)
+
+def read_alarmschijf_data():
+    return read_data(radio538data_path)
 
 
 def filter_date(filename):

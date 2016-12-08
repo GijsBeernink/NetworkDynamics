@@ -4,10 +4,6 @@ import misc.utils.util as util
 import datetime
 import pprint
 
-def get_data():
-    return util.read_youtube_data()
-
-
 # Change format of data from [[data_per_day]] to [total_snapshot_song_0, total_snapshot_song_1,...]
 def reformat_data(data):
     new_data = []
@@ -90,6 +86,7 @@ def calculate_difference_with_previous(array):
 
 def calculate_ratio(a, b):
     result = []
+    assert len(a) == len(b)
     for i in range(len(a)):
         try:
             ratio = float(a[i]) / float((float(a[i]) + float(b[i])))
@@ -99,13 +96,7 @@ def calculate_ratio(a, b):
     return result
 
 
-data = get_data()
-data_ref = reformat_data(data)
-
-#  data[dag][song]
-# print data[0][0].title, ": ", data[0][0].likes
-
-def total_like_to_new_like_ratio_plot():
+def total_like_to_new_like_ratio_plot(data, name):
     like_ratio = []
     like_ratio_in_new_votes = []
 
@@ -113,26 +104,26 @@ def total_like_to_new_like_ratio_plot():
 
         for song in range(len(data[0])):
 
-            likes = int(data[day][song].likes)
-            dislikes = int(data[day][song].dislikes)
+            likes = float(data[day][song].likes)
+            dislikes = float(data[day][song].dislikes)
 
-            previous_likes = int(data[day - 1][song].likes)
-            previous_dislikes = int(data[day - 1][song].dislikes)
+            previous_likes = float(data[day - 1][song].likes)
+            previous_dislikes = float(data[day - 1][song].dislikes)
 
             likes_more = likes - previous_likes
             dislikes_more = dislikes - previous_dislikes
 
             if dislikes_more > 0 and likes_more > 0:
                 like_ratio_in_new_votes.append(float(likes_more) / (float(likes_more) + float(dislikes_more)))
-                like_ratio.append(float(data[day - 1][song].likes) / (float(data[day - 1][song].likes) + float(data[day - 1][song].dislikes)))
+                like_ratio.append(float(previous_likes) / (float(previous_dislikes) + float(previous_likes)))
 
-    plt.figure("Scatter-plot")
+    plt.figure("Scatter-plot of " + name)
     plt.scatter(like_ratio, like_ratio_in_new_votes)
     plt.ylabel("Like ratio in new votes")
     plt.xlabel("Like ratio")
     plt.show(block = False)
 
-def total_like_to_new_like_ratio_plot_per_song(song):
+def total_like_to_new_like_ratio_plot_per_song(song, data):
     like_ratio = []
     like_ratio_in_new_votes = []
 
@@ -150,9 +141,6 @@ def total_like_to_new_like_ratio_plot_per_song(song):
             if dislikes_more > 0 and likes_more > 0:
                 like_ratio_in_new_votes.append(float(likes_more) / (float(likes_more) + float(dislikes_more)))
                 like_ratio.append(float(data[day - 1][song].likes) / (float(data[day - 1][song].likes) + float(data[day - 1][song].dislikes)))
-
-    print like_ratio
-    print like_ratio_in_new_votes
 
     plt.figure("Scatter-plot of " + str(data[0][song].title))
     plt.scatter(like_ratio, like_ratio_in_new_votes)
@@ -161,7 +149,7 @@ def total_like_to_new_like_ratio_plot_per_song(song):
     plt.show(block=False)
 
 
-def plot_increasing_increase_ratio():
+def plot_increasing_increase_ratio(data_ref):
     for i in range(len(data_ref)):
         ratio = calculate_ratio(data_ref[i].likes, data_ref[i].dislikes)
 
@@ -172,13 +160,37 @@ def plot_increasing_increase_ratio():
             plt.ylabel("Percentage likes of all votes")
             plt.xlabel("days")
             plt.show(block=False)
+            print "Found ", data_ref[i].title
 
 
-total_like_to_new_like_ratio_plot()
-plot_increasing_increase_ratio()
+
+# Get data
+youtube_data = util.read_youtube_data()
+megahit_data = util.read_megahit_data()
+alarmschijf_data = util.read_alarmschijf_data()
+
+# Check if same titles have same index
+check_titles(youtube_data)
+check_titles(megahit_data)
+check_titles(alarmschijf_data)
+
+# Change format of data
+youtube_data_ref = reformat_data(youtube_data)
+megahit_data_ref = reformat_data(megahit_data)
+alarmschijf_data_ref = reformat_data(alarmschijf_data)
+
+# Create plot, if exists, of songs with an strictly increasing growth of popularity
+plot_increasing_increase_ratio(youtube_data_ref)
+plot_increasing_increase_ratio(megahit_data_ref)
+plot_increasing_increase_ratio(alarmschijf_data_ref)
+
+# Plot total like to new likes ratio
+total_like_to_new_like_ratio_plot(youtube_data, "youtube")
+total_like_to_new_like_ratio_plot(megahit_data, "megahit")
+total_like_to_new_like_ratio_plot(alarmschijf_data, "alarmschijf")
 
 # Songs with increasing increase in likes vs total votes ratio:
-total_like_to_new_like_ratio_plot_per_song(8) # Ariana Grande - Focus
-total_like_to_new_like_ratio_plot_per_song(92) # Rihanna - Bitch Better Have My Money (Explicit)
+total_like_to_new_like_ratio_plot_per_song(8, youtube_data) # Ariana Grande - Focus
+total_like_to_new_like_ratio_plot_per_song(92, youtube_data) # Rihanna - Bitch Better Have My Money (Explicit)
 
 plt.show()
