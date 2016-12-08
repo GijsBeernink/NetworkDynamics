@@ -4,7 +4,7 @@ import misc.utils.util as util
 import datetime
 import pprint
 
-# Change format of data from [[data_per_day]] to [total_snapshot_song_0, total_snapshot_song_1,...]
+# Change format of data from [[data_per_day]] to [[data_per_song]]
 def reformat_data(data):
     new_data = []
     for j in range(len(data[0])):
@@ -27,42 +27,28 @@ def reformat_data(data):
     return new_data
 
 
-
-# Check if every song is on same index in data-array
-def check_titles(data):
-    try:
-        for j in range(len(data[0])):
-            for i in range(1,len(data)):
-                if data[i-1][j].title != data[i][j].title:
-                    print data[i-1][j].title , "\n", data[i][j].title
-                    print data[i-1][j].date , "\n", data[i][j].date
-                    print i, j
-                    print "---------------------------------"
-    except IndexError:
-        print i,", ", j
-
-
 # Plots day vs like and day vs dislike of a single song.
 def plot_song(nr, data):
-    get_song = nr
     like_counts = []
     dislike_counts = []
     title = ""
     previous_day = -1
     for day in data:
         if previous_day == -1:
-            previous_day = day[get_song].date - datetime.timedelta(days=1)
-            title = day[get_song].title
-            like_counts.append(day[get_song].likes)
-            dislike_counts.append(day[get_song].dislikes)
-        elif day[get_song].date == previous_day + datetime.timedelta(days=1):
-            like_counts.append(day[get_song].likes)
-            dislike_counts.append(day[get_song].dislikes)
+            previous_day = day[nr].date - datetime.timedelta(days=1)
+            title = day[nr].title
+            like_counts.append(day[nr].likes)
+            dislike_counts.append(day[nr].dislikes)
+
+        elif day[nr].date == previous_day + datetime.timedelta(days=1):
+            like_counts.append(day[nr].likes)
+            dislike_counts.append(day[nr].dislikes)
+
         else:
             like_counts.append(0)
             dislike_counts.append(0)
 
-        while day[get_song].date > previous_day + datetime.timedelta(days=1):
+        while day[nr].date > previous_day + datetime.timedelta(days=1):
             like_counts.append(0)
             dislike_counts.append(0)
             previous_day += datetime.timedelta(days=1)
@@ -83,6 +69,7 @@ def calculate_difference_with_previous(array):
         incr = float(array[i]) - float(array[i-1])
         result.append(incr)
     return result
+
 
 def calculate_ratio(a, b):
     result = []
@@ -163,34 +150,83 @@ def plot_increasing_increase_ratio(data_ref):
             print "Found ", data_ref[i].title
 
 
+def find_same_titles(source, dataset):
+    same_titles = []
+    for song in source[0]:
+        print "Searching ", song.title
+        for day in megahit_data:
+            for other_song in day:
+                if song.title == other_song.title:
+                    print "Found ", song.title
+                    same_titles.append(song.title)
+    return same_titles
+
+
+# Plots day vs like and day vs dislike of all songs of megahit dataset
+def plot_songs_megahit(data, plot):
+    likes = dict()                                # dict: {Song: [likes]}
+    dislikes = dict()                                # dict: {Song: [dislikes]}
+    for song in data[len(data) - 1]:
+        likes[song.title] = []
+        dislikes[song.title] = []
+
+    for day in data:
+        for song in day:
+            temp_l = likes[song.title]
+            temp_l.append(song.likes)
+            likes[song.title] = temp_l
+
+            temp_d = dislikes[song.title]
+            temp_d.append(song.dislikes)
+            dislikes[song.title] = temp_d
+
+    plt.figure(plot)
+
+    for song in likes.keys():
+        t = np.arange(0, len(likes[song]), 1)
+        plt.plot(t, likes[song], 'b', t, dislikes[song], 'r')
+        plt.ylabel("Votes")
+        plt.xlabel("Days")
+        plt.show(block = False)
+
 
 # Get data
 youtube_data = util.read_youtube_data()
 megahit_data = util.read_megahit_data()
 alarmschijf_data = util.read_alarmschijf_data()
 
-# Check if same titles have same index
-check_titles(youtube_data)
-check_titles(megahit_data)
-check_titles(alarmschijf_data)
+plot_songs_megahit(alarmschijf_data, "alarmschijf")
+plot_songs_megahit(megahit_data, "megahit")
 
-# Change format of data
-youtube_data_ref = reformat_data(youtube_data)
-megahit_data_ref = reformat_data(megahit_data)
-alarmschijf_data_ref = reformat_data(alarmschijf_data)
 
-# Create plot, if exists, of songs with an strictly increasing growth of popularity
-plot_increasing_increase_ratio(youtube_data_ref)
-plot_increasing_increase_ratio(megahit_data_ref)
-plot_increasing_increase_ratio(alarmschijf_data_ref)
 
-# Plot total like to new likes ratio
-total_like_to_new_like_ratio_plot(youtube_data, "youtube")
-total_like_to_new_like_ratio_plot(megahit_data, "megahit")
-total_like_to_new_like_ratio_plot(alarmschijf_data, "alarmschijf")
 
-# Songs with increasing increase in likes vs total votes ratio:
-total_like_to_new_like_ratio_plot_per_song(8, youtube_data) # Ariana Grande - Focus
-total_like_to_new_like_ratio_plot_per_song(92, youtube_data) # Rihanna - Bitch Better Have My Money (Explicit)
+# # Change format of data
+# youtube_data_ref = reformat_data(youtube_data)
+# megahit_data_ref = reformat_data(megahit_data)
+# alarmschijf_data_ref = reformat_data(alarmschijf_data)
+#
+# # Create plot, if exists, of songs with an strictly increasing growth of popularity
+# plot_increasing_increase_ratio(youtube_data_ref)
+# plot_increasing_increase_ratio(megahit_data_ref)
+# plot_increasing_increase_ratio(alarmschijf_data_ref)
+#
+# # Plot total like to new likes ratio
+# total_like_to_new_like_ratio_plot(youtube_data, "youtube")
+# total_like_to_new_like_ratio_plot(megahit_data, "megahit")
+# total_like_to_new_like_ratio_plot(alarmschijf_data, "alarmschijf")
+#
+# # Songs with increasing increase in likes vs total votes ratio:
+# total_like_to_new_like_ratio_plot_per_song(8, youtube_data) # Ariana Grande - Focus
+# total_like_to_new_like_ratio_plot_per_song(92, youtube_data) # Rihanna - Bitch Better Have My Money (Explicit)
+
 
 plt.show()
+#
+# for day in alarmschijf_data:
+#     for song in day:
+#             print song.title
+#
+# print find_same_titles(youtube_data, megahit_data)
+# print find_same_titles(youtube_data, alarmschijf_data)
+#
