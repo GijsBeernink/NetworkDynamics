@@ -3,26 +3,29 @@ import matplotlib.pyplot as plt
 import misc.utils.util as util
 import datetime
 
+# Songs to be investigated
+to_investigate = [13, 23, 43, 53, 93]
+
 
 # Plots day vs like and day vs dislike of a single song.
 def plot_song(nr, data):
-    get_song = nr
     view_counts = []
     title = ""
     previous_day = -1
+
     for day in data:
         if previous_day == -1:
-            previous_day = day[get_song].date - datetime.timedelta(days=1)
-            title = day[get_song].title
-            view_counts.append(day[get_song].views)
+            previous_day = day[nr].date - datetime.timedelta(days=1)
+            title = day[nr].title
+            view_counts.append(day[nr].views)
 
-        elif day[get_song].date == previous_day + datetime.timedelta(days=1):
-            view_counts.append(day[get_song].views)
+        elif day[nr].date == previous_day + datetime.timedelta(days=1):
+            view_counts.append(day[nr].views)
 
         else:
             view_counts.append(0)
 
-        while day[get_song].date > previous_day + datetime.timedelta(days=1):
+        while day[nr].date > previous_day + datetime.timedelta(days=1):
             view_counts.append(0)
             previous_day += datetime.timedelta(days=1)
 
@@ -37,6 +40,7 @@ def plot_song(nr, data):
 
 
 youtube_data = util.read_youtube_data()
-for i in range(len(youtube_data[0])):
-    plot_song(i, youtube_data)
+
+for nr in to_investigate:
+    plot_song(nr, youtube_data)
 
