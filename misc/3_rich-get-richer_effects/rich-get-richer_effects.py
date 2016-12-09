@@ -1,13 +1,11 @@
 import misc.utils.util as util
-import datetime
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import mlab
 import os
 
 path, dirs, files = os.walk("../../data/youtube_top100").next()
 file_count = len(files)
-days_interval = 50
+days_interval = 20
 
 
 def get_song_views(data):
