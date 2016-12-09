@@ -9,6 +9,7 @@ Paths
 youtube_data_path = "../../data/youtube_top100/"
 radio3fm_data_path = "../../data/radio3fm_megahit/"
 radio538data_path = "../../data/radio538_alarmschijf/"
+spotify_path = "../../data/spotify_top100/"
 
 '''
 Data point object

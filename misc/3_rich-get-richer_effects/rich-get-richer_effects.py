@@ -7,7 +7,6 @@ path, dirs, files = os.walk("../../data/youtube_top100").next()
 file_count = len(files)
 days_interval = 20
 
-
 def get_song_views(data):
     songs = dict()
     datapoints = 0
@@ -87,7 +86,29 @@ def plot_distribution(songs):
         plt.figtext(.5,.5,"No rich-get-richer trend in this data.")
     plt.show()
 
-youtube_data = util.read_youtube_data()
-song_views = get_song_views(youtube_data)
-song_ratios = song_views_to_percentage(song_views)
-plot_distribution(song_ratios)
+# youtube_data = util.read_youtube_data()
+# song_views = get_song_views(youtube_data)
+# song_ratios = song_views_to_percentage(song_views)
+# plot_distribution(song_ratios)
+
+
+#   Returns a measure of similarity between the two ordinal vectors
+def distance(ordinal_1, ordinal_2):
+    return sum([abs(ordinal_1[i] - ordinal_2[i]) for i in range(len(ordinal_1))])
+
+
+#   Sum the distances between two lists of ordinal vectors
+def total_distances(ordinals_1, ordinals_2):
+    return sum([distance(ordinals_1[i], ordinals_2[i]) for i in range(len(ordinals_1))])
+
+
+#   Convert a ranking vector to an ordinal vector
+def to_ordinal(ranking):
+    page_rank_tuple = sorted(([(i,j) for i,j in enumerate(ranking, 0)]), key = lambda x: x[1], reverse = True)
+    ordinal_rank = [0 for _ in ranking]
+    j = 1
+    for t in page_rank_tuple:
+        ordinal_rank[t[0]] = j
+        j += 1
+    return ordinal_rank
+
