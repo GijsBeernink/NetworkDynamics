@@ -7,9 +7,10 @@ import os
 
 path, dirs, files = os.walk("../../data/youtube_top100").next()
 file_count = len(files)
+days_interval = 50
 
 
-def get_song_views(days_interval, data):
+def get_song_views(data):
     songs = dict()
     datapoints = 0
     for song in data[0]:
@@ -43,27 +44,55 @@ def song_views_to_percentage(songs):
             songviews = songs.get(song)[i]
             ratio = float(songviews) / float(total_views)
             tmp = result.get(song)
-            tmp.append(ratio)
+            tmp.append(ratio * 100)
             result[song] = tmp
     return result
 
 
 # Plots distribution of the number of views of all songs over several days
-def plot_distribution(days_interval, songs):
+def plot_distribution(songs):
+    x = np.arange(0, file_count, days_interval)
 
-    x = np.arange(0, file_count/days_interval + 1, 1)
-
+#   Plot distribution of all songs
     plt.figure("Distribution of songs with " + str(days_interval) + " days interval")
-
+    plt.ylabel("Percentage of views")
+    plt.xlabel("Day")
+    plt.ylim(0, 5.5)
     for song in songs:
-        # print song, ": ", songs.get(song)
         plt.plot(x, songs.get(song))
+    plt.show(block=False)
 
+#   Plot distribution of songs which rise
+    plt.figure("Distribution of songs which rise (" + str(days_interval) + " days interval)")
+    plt.ylabel("Percentage of views")
+    plt.xlabel("Day")
+    plt.ylim(0, 5.5)
+    for song in songs:
+        views = songs.get(song)
+        dv = np.gradient(views)
+
+        if views[0] < views[-1]:
+            plt.plot(x, views)
+
+    plt.show(block=False)
+
+    #   Plot distribution of songs which have a rich-get-richer trend
+    plt.figure("Distribution of songs with rich-get-richer trend (" + str(days_interval) + " days interval)")
+    plt.ylabel("Percentage of views")
+    plt.xlabel("Day")
+    plt.ylim(0, 5.5)
+    line_in_plot = False
+    for song in songs:
+        views = songs.get(song)
+        dv = np.gradient(views)
+        if all(0 < x < y for x, y in zip(dv, dv[1:])):
+            plt.plot(x, views)
+            line_in_plot = True
+    if not line_in_plot:
+        plt.figtext(.5,.5,"No rich-get-richer trend in this data.")
     plt.show()
 
-days_interval = 50
-
 youtube_data = util.read_youtube_data()
-song_views = get_song_views(days_interval, youtube_data)
+song_views = get_song_views(youtube_data)
 song_ratios = song_views_to_percentage(song_views)
-plot_distribution(days_interval,song_ratios)
+plot_distribution(song_ratios)
