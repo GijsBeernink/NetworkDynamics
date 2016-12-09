@@ -26,51 +26,44 @@ def get_song_views(days_interval, data):
                 songs[song.title] = temp
     return songs
 
+# {title: [views]} to {title: [percentage of views}
+def song_views_to_percentage(songs):
+    result = dict()
 
-# # Plots distribution of the number of views of all songs over several days
-# def plot_distribution(days_interval, data):
-#
-#
-#
-#     x = np.arange(0, file_count, days_interval)
-#
-#     plt.figure("Distribution of songs with" + str(days_interval) + " days interval")
-#
-#     for i in range(0,len(songs.values()[0])):
-#
-#         for song in songs:
-#             if i == 0:
-#                 plt.bar(x, float(songs.get(song.title))/float(totals[i]), 20, color='r')
-#             else:
-#                 plt.bar(x, float(songs.get(song.title))/float(totals[i]), 20, color='y', bottom=songs.get())
-#
-#
-#     #
-#     # plt.bar(x, songs.get(data[0][0].title), 20, color='r')
-#     # plt.bar(x, songs.get(data[0][1].title), 20, color='y', bottom=songs.get(data[0][0].title))
-#     plt.show()
+    for song in songs:
+        result[song] = []
+
+    for i in range(0, len(songs.get(songs.keys()[0]))):
+        total_views = 0
+        for song in songs:
+            songviews = songs.get(song)[i]
+            total_views += songviews
+
+        for song in songs:
+            songviews = songs.get(song)[i]
+            ratio = float(songviews) / float(total_views)
+            tmp = result.get(song)
+            tmp.append(ratio)
+            result[song] = tmp
+    return result
+
+
+# Plots distribution of the number of views of all songs over several days
+def plot_distribution(days_interval, songs):
+
+    x = np.arange(0, file_count/days_interval + 1, 1)
+
+    plt.figure("Distribution of songs with " + str(days_interval) + " days interval")
+
+    for song in songs:
+        # print song, ": ", songs.get(song)
+        plt.plot(x, songs.get(song))
+
+    plt.show()
+
+days_interval = 50
 
 youtube_data = util.read_youtube_data()
-# plot_distribution(20, youtube_data)
-
-# mu = 100
-# sigma = 25
-# n_bins = 50
-# x = mu + sigma * np.random.randn(10000)
-#
-# n, bins, patches = plt.hist(x, n_bins, normed=1,
-#                             histtype='step', cumulative=True)
-#
-# # Add a line showing the expected distribution.
-# y = mlab.normpdf(bins, mu, sigma).cumsum()
-# y /= y[-1]
-# plt.plot(bins, y, 'k--', linewidth=1.5)
-#
-# # Overlay a reversed cumulative histogram.
-# plt.hist(x, bins=bins, normed=1, histtype='step', cumulative=-1)
-#
-# plt.grid(True)
-# plt.ylim(0, 1.05)
-# plt.title('cumulative step')
-#
-# plt.show()
+song_views = get_song_views(days_interval, youtube_data)
+song_ratios = song_views_to_percentage(song_views)
+plot_distribution(days_interval,song_ratios)
