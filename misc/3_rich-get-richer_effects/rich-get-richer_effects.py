@@ -67,11 +67,8 @@ def plot_distribution(songs):
     plt.ylim(0, 5.5)
     for song in songs:
         views = songs.get(song)
-        dv = np.gradient(views)
-
         if views[0] < views[-1]:
             plt.plot(x, views)
-
     plt.show(block=False)
 
     #   Plot distribution of songs which have a rich-get-richer trend
