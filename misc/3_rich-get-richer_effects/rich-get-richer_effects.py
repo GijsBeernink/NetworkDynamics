@@ -84,14 +84,7 @@ def plot_distribution(songs):
             line_in_plot = True
     if not line_in_plot:
         plt.figtext(.5,.5,"No rich-get-richer trend in this data.")
-    plt.show()
-
-youtube_data = util.read_youtube_data()
-# song_views = get_song_views(youtube_data)
-# song_ratios = song_views_to_percentage(song_views)
-# plot_distribution(song_ratios)
-
-spotify_data = util.read_spotify_data()
+    plt.show(block=False)
 
 
 #   Returns a measure of similarity between the two ordinal vectors
@@ -119,7 +112,8 @@ def compare_ranking_spotify_youtube(youtube_data, spotify_data):
     # Get all youtube titles and views and make it an ordinal list.
     youtube_titles = []
     youtube_views = []
-    for snapshot in youtube_data[-1]:
+
+    for snapshot in youtube_data[127]:                          # datapoint 127 is the data at 29-07-2016. Halfway our used YouTube dataset. Change 127 to -1 to take last datapoint.
         youtube_titles.append(snapshot.title)
         youtube_views.append(int(snapshot.views))
     youtube_ordinal = to_ordinal(youtube_views)
@@ -141,31 +135,37 @@ def compare_ranking_spotify_youtube(youtube_data, spotify_data):
 
     # Ordinal titles are in the order as they appear in the last array of snapshots
     spotify_ordinal_titles = []
-    for track in spotify_data[-1]:
+    for track in spotify_data[261]:                             # datapoint 261 is the data at 29-07-2016. Halfway our used YouTube dataset. Change 261 to -1 to take last datapoint.
         spotify_ordinal_titles.append(track.title)
 
     # Only get songs which were in the top100 at the beginning
     spotify_ordinal_titles_useful = []
     for i in range(len(spotify_ordinal_titles)):
         if spotify_ordinal_titles[i] in spotify_titles_orig:
-            print spotify_ordinal_titles[i]
             spotify_ordinal_titles_useful.append(spotify_ordinal_titles[i])
         else:
             spotify_ordinal_titles_useful.append("-")
 
     print_comparison(spotify_ordinal_titles_useful, youtube_ordinal_titles)
 
-def print_comparison(youtube_ordinal_titles, spotify_ordinal_titles):
-    print "Position | \t \t youtube title \t\t \t\t| \t  spotify title "
 
-    for i in range(len(youtube_ordinal_titles)):
+# Print the ordinal rankings of the youtube titles and spotify titles. It is necessary to provide the titles in ordinal ranking.
+def print_comparison(youtube_ordinal_titles, spotify_ordinal_titles):
+    print "Position | \t \t spotify title \t\t \t\t| \t  youtube title "
+
+    for i in range(len(spotify_ordinal_titles)):
         if i+1 < 10:
             nr = str(0) + str(i+1)
         else:
             nr = i+1
         print nr, " \t | ", youtube_ordinal_titles[i], "\t\t\t\t | ", spotify_ordinal_titles[i]
 
-
-print compare_ranking_spotify_youtube(youtube_data, spotify_data)
+spotify_data = util.read_spotify_data()
+youtube_data = util.read_youtube_data()
+song_views = get_song_views(youtube_data)
+song_ratios = song_views_to_percentage(song_views)
+plot_distribution(song_ratios)
+compare_ranking_spotify_youtube(youtube_data, spotify_data)
+plt.show() # to ensure the plots don't disappear right after the program finishes.
 
 
