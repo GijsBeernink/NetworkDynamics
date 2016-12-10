@@ -9,7 +9,7 @@ Paths
 youtube_data_path = "../../data/youtube_top100/"
 radio3fm_data_path = "../../data/radio3fm_megahit/"
 radio538data_path = "../../data/radio538_alarmschijf/"
-spotify_path = "../../data/spotify_top100/"
+spotify_data_path = "../../data/spotify_top100/"
 
 '''
 Data point object
@@ -23,6 +23,13 @@ class SongSnapshot:
         self.likes = likes
         self.dislikes = dislikes
         self.comment_count = comment_count
+        self.date = date
+
+
+class SpotifySnapshot:
+    def __init__(self, title, position_in_top100, date):
+        self.title = title
+        self.position_in_top100 = position_in_top100
         self.date = date
 
 
@@ -60,8 +67,25 @@ def read_youtube_data():
 def read_megahit_data():
     return read_data(radio3fm_data_path)
 
+
 def read_alarmschijf_data():
     return read_data(radio538data_path)
+
+
+def read_spotify_data():
+    result = []
+    for filename in os.listdir(spotify_data_path):
+        data_file = open(spotify_data_path + filename)
+        data = json.load(data_file)
+        snapshots = []
+        position_in_top100 = 0  # zero is first place
+        for track in data["tracks"]["items"]:
+            title = str(track["track"]["artists"][0]["name"].encode('ascii', 'ignore')) + " - " + str(track["track"]["name"].encode('ascii', 'ignore'))          # only takes first artist
+            date = filter_date(filename)
+            snapshots.append(SpotifySnapshot(title, position_in_top100, date))
+            position_in_top100 += 1
+        result.append(snapshots)
+    return result
 
 
 def filter_date(filename):
